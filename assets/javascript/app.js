@@ -53,7 +53,6 @@ $(document).ready(function () {
             database.ref().update({
                 data_player1: player1
             });
-            $("#player1_name").text(player1);
             player_uno = true;
             console.log(player_uno);
         } else if (player2 === "") {
@@ -61,7 +60,6 @@ $(document).ready(function () {
             database.ref().update({
                 data_player2: player2
             });
-            $("#player2_name").text(player2);
             player_dos = true;
         } else {
             alert("Sorry! This game already has two players");
@@ -82,7 +80,7 @@ $(document).ready(function () {
             });
         } else if (player_dos === true) {
 
-            $(".dos").on("click", function() {
+            $(".dos").on("click", function () {
                 dos_guess = $(this).attr("alt");
                 database.ref().update({
                     data_p2guess: dos_guess
@@ -95,7 +93,7 @@ $(document).ready(function () {
         }
     });
 
-    function WhoWillWin () {
+    function WhoWillWin() {
         if (uno_guess !== "" && dos_guess !== "") {
             if (uno_guess === dos_guess) {
                 ties++;
@@ -105,10 +103,10 @@ $(document).ready(function () {
                 $("#p2w").text(p2_wins);
             } else if (uno_guess === "paper" && dos_guess === "scissors") {
                 p2_wins++;
-                $("#p2w").text(p2_wins); 
+                $("#p2w").text(p2_wins);
             } else if (uno_guess === "scissors" && dos_guess === "rock") {
                 p2_wins++;
-                $("#p2w").text(p2_wins); 
+                $("#p2w").text(p2_wins);
             } else {
                 p1_wins++;
                 $("#p1w").text(p1_wins);
@@ -122,7 +120,7 @@ $(document).ready(function () {
     database.ref("data_player1").on("value", function (snapshot) {
 
         player1 = snapshot.val();
-        $("#player1_name").text(snapshot.val());
+        $("#player1_name").text(player1);
 
         // If any errors are experienced, log them to console.
     }, function (errorObject) {
@@ -132,7 +130,7 @@ $(document).ready(function () {
     database.ref("data_player2").on("value", function (snapshot) {
 
         player2 = snapshot.val();
-        $("#player2_name").text(snapshot.val());
+        $("#player2_name").text(player2);
 
         // If any errors are experienced, log them to console.
     }, function (errorObject) {
