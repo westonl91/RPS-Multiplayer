@@ -8,21 +8,11 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 
-    <script type="text/javascript" src="./assets/javascript/app.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyB26RKaffVMai-rxe4rPfv52MI26tx6VM4",
-            authDomain: "rps-multiplayer-47bfe.firebaseapp.com",
-            databaseURL: "https://rps-multiplayer-47bfe.firebaseio.com",
-            projectId: "rps-multiplayer-47bfe",
-            storageBucket: "rps-multiplayer-47bfe.appspot.com",
-            messagingSenderId: "588360342603"
-        };
-        firebase.initializeApp(config);
-    </script>
+
+<script type="text/javascript" src="./assets/javascript/app.js"></script>
+
+
 
 </head>
 
@@ -42,26 +32,26 @@
                 <p>Enter your name to join the game.</p>
                 <form>
                         <input type="text" name="player" id="player_name">
-                        <input type="submit" value="Start">
+                        <input type="submit" value="Start" id="submit_name">
                 </form> <br>
             </div>
         </div>
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-3">
-                <span>player 1 and options go here</span>
-                <img id="rock1_img" src="./assets/images/rock.jpg" alt="rock" height="40px" /><br>
-                <img id="paper1_img" src="./assets/images/paper.jpg" alt="paper" height="40px" /><br>
-                <img id="scissors1_img" src="./assets/images/scissors.jpg" alt="scissors" height="40px" />
+                <span id="player1_name">player 1</span> <br>
+                <img id="rock1_img" value="r1" src="./assets/images/rock.jpg" alt="rock" height="40px" /><br>
+                <img id="paper1_img" value="p1" src="./assets/images/paper.jpg" alt="paper" height="40px" /><br>
+                <img id="scissors1_img" value="s1" src="./assets/images/scissors.jpg" alt="scissors" height="40px" />
             </div>
             <div class="col-md-4">
                 <span>results and score go here</span><br>
             </div>
             <div class="col-md-3">
-                <span>player 2 and options go here</span><br>
-                <img id="rock2_img" src="./assets/images/rock.jpg" alt="rock" height="40px" /><br>
-                <img id="paper2_img" src="./assets/images/paper.jpg" alt="paper" height="40px" /><br>
-                <img id="scissors2_img" src="./assets/images/scissors.jpg" alt="scissors" height="40px" />
+                <span id="player2_name">player 2</span><br>
+                <img id="rock2_img" value="r2" src="./assets/images/rock.jpg" alt="rock" height="40px" /><br>
+                <img id="paper2_img" value="p2" src="./assets/images/paper.jpg" alt="paper" height="40px" /><br>
+                <img id="scissors2_img" value="s2" src="./assets/images/scissors.jpg" alt="scissors" height="40px" />
             </div>
         </div>
         <div class="row">
@@ -71,6 +61,9 @@
             </div>
         </div>
     </div>
+
+
+
 </body>
 
 </html>
