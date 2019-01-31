@@ -24,8 +24,12 @@ $(document).ready(function () {
     var player1 = "";
     var player2 = "";
     var player_uno = false;
+    var player_dos = false;
     var uno_guess = "";
     var dos_guess = "";
+    var p1_wins = 0;
+    var p2_wins = 0;
+    var ties = 0;
 
     database.ref().set({
         data_player1: player1,
@@ -58,6 +62,7 @@ $(document).ready(function () {
                 data_player2: player2
             });
             $("#player2_name").text(player2);
+            player_dos = true;
         } else {
             alert("Sorry! This game already has two players");
         }
@@ -71,9 +76,11 @@ $(document).ready(function () {
                     data_p1guess: uno_guess
                 });
                 console.log("you clicked " + $(this).attr("alt"));
-
+                player_uno = false;
+                WhoWillWin();
+                player_uno = true;
             });
-        } else {
+        } else if (player_dos === true) {
 
             $(".dos").on("click", function() {
                 dos_guess = $(this).attr("alt");
@@ -81,11 +88,35 @@ $(document).ready(function () {
                     data_p2guess: dos_guess
                 });
                 console.log("you clicked " + $(this).attr("alt"));
+                player_dos = false;
+                WhoWillWin();
+                player_dos = true;
             });
         }
     });
 
-
+    function WhoWillWin () {
+        if (uno_guess !== "" && dos_guess !== "") {
+            if (uno_guess === dos_guess) {
+                ties++;
+                $("#tieses").text(ties);
+            } else if (uno_guess === "rock" && dos_guess === "paper") {
+                p2_wins++;
+                $("#p2w").text(p2_wins);
+            } else if (uno_guess === "paper" && dos_guess === "scissors") {
+                p2_wins++;
+                $("#p2w").text(p2_wins); 
+            } else if (uno_guess === "scissors" && dos_guess === "rock") {
+                p2_wins++;
+                $("#p2w").text(p2_wins); 
+            } else {
+                p1_wins++;
+                $("#p1w").text(p1_wins);
+            }
+        } else {
+            alert("waiting for other player to choose...");
+        }
+    }
 
 
     database.ref("data_player1").on("value", function (snapshot) {
@@ -102,6 +133,24 @@ $(document).ready(function () {
 
         player2 = snapshot.val();
         $("#player2_name").text(snapshot.val());
+
+        // If any errors are experienced, log them to console.
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    database.ref("data_p1guess").on("value", function (snapshot) {
+
+        uno_guess = snapshot.val();
+
+        // If any errors are experienced, log them to console.
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    database.ref("data_p2guess").on("value", function (snapshot) {
+
+        dos_guess = snapshot.val();
 
         // If any errors are experienced, log them to console.
     }, function (errorObject) {
