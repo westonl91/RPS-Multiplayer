@@ -23,10 +23,15 @@ $(document).ready(function () {
     //initialize variables needed
     var player1 = "";
     var player2 = "";
+    var player_uno = false;
+    var uno_guess = "";
+    var dos_guess = "";
 
     database.ref().set({
         data_player1: player1,
-        data_player2: player2
+        data_player2: player2,
+        data_p1guess: "",
+        data_p2guess: ""
     });
 
 
@@ -45,6 +50,8 @@ $(document).ready(function () {
                 data_player1: player1
             });
             $("#player1_name").text(player1);
+            player_uno = true;
+            console.log(player_uno);
         } else if (player2 === "") {
             player2 = $("#player_name").val();
             database.ref().update({
@@ -55,9 +62,31 @@ $(document).ready(function () {
             alert("Sorry! This game already has two players");
         }
 
-        console.log(database.ref().data_player1);
+        if (player_uno === true) {
 
+            $(".uno").on("click", function () {
+
+                uno_guess = $(this).attr("alt");
+                database.ref().update({
+                    data_p1guess: uno_guess
+                });
+                console.log("you clicked " + $(this).attr("alt"));
+
+            });
+        } else {
+
+            $(".dos").on("click", function() {
+                dos_guess = $(this).attr("alt");
+                database.ref().update({
+                    data_p2guess: dos_guess
+                });
+                console.log("you clicked " + $(this).attr("alt"));
+            });
+        }
     });
+
+
+
 
     database.ref("data_player1").on("value", function (snapshot) {
 
