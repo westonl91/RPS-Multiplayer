@@ -145,6 +145,15 @@ $(document).ready(function () {
 
 });
 
+function reset_game () {
+    database.ref("data_p1guess").remove();
+    uno_guess = "";
+    database.ref("data_p2guess").remove();
+    dos_guess = "";
+    $("button").removeAttr("disabled");
+}
+
+
 database.ref("data_player1").on("value", function (snapshot) {
 
     if (snapshot.exists()) {
@@ -201,7 +210,7 @@ database.ref("data_ties").on("value", function (snapshot) {
         ties = snapshot.val();
         $("#tieses").text(ties);
         alert("it's a tie!");
-        $("button").removeAttr("disabled");
+        reset_game();
     }
 
     // If any errors are experienced, log them to console.
@@ -215,7 +224,7 @@ database.ref("data_p2w").on("value", function (snapshot) {
         p2_wins = snapshot.val();
         $("#p2w").text(p2_wins);
         alert(player2 + " wins!");
-        $("button").removeAttr("disabled");
+        reset_game();
     }
 
     // If any errors are experienced, log them to console.
@@ -229,7 +238,7 @@ database.ref("data_p1w").on("value", function (snapshot) {
         p1_wins = snapshot.val();
         $("#p1w").text(p1_wins);
         alert(player1 + " wins!");
-        $("button").removeAttr("disabled");
+        reset_game();
     }
 
     // If any errors are experienced, log them to console.
