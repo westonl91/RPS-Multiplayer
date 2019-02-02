@@ -53,13 +53,14 @@ $(document).ready(function () {
                 data_player1: player1
             });
             player_uno = true;
-            console.log(player_uno);
+            console.log("you are player uno");
         } else if (player2 === "") {
             player2 = $("#player_name").val();
             database.ref().update({
                 data_player2: player2
             });
             player_dos = true;
+            console.log("you are player dos");
         } else {
             alert("Sorry! This game already has two players");
             console.log(player1);
@@ -102,19 +103,29 @@ $(document).ready(function () {
         if (uno_guess !== "" && dos_guess !== "") {
             if (uno_guess === dos_guess) {
                 ties++;
-                $("#tieses").text(ties);
+                database.ref().update({
+                    data_ties: ties
+                });
             } else if (uno_guess === "rock" && dos_guess === "paper") {
                 p2_wins++;
-                $("#p2w").text(p2_wins);
+                database.ref().update({
+                    data_p2w: p2_wins
+                });
             } else if (uno_guess === "paper" && dos_guess === "scissors") {
                 p2_wins++;
-                $("#p2w").text(p2_wins);
+                database.ref().update({
+                    data_p2w: p2_wins
+                });
             } else if (uno_guess === "scissors" && dos_guess === "rock") {
                 p2_wins++;
-                $("#p2w").text(p2_wins);
+                database.ref().update({
+                    data_p2w: p2_wins
+                });
             } else {
                 p1_wins++;
-                $("#p1w").text(p1_wins);
+                database.ref().update({
+                    data_p2w: p2_wins
+                });
             }
         } else {
             alert("waiting for other player to choose...");
@@ -154,7 +165,9 @@ database.ref("data_player2").on("value", function (snapshot) {
 
 database.ref("data_p1guess").on("value", function (snapshot) {
 
-    uno_guess = snapshot.val();
+    if (snapshot.exists()) {
+        uno_guess = snapshot.val();
+    }
 
 
     // If any errors are experienced, log them to console.
@@ -164,7 +177,45 @@ database.ref("data_p1guess").on("value", function (snapshot) {
 
 database.ref("data_p2guess").on("value", function (snapshot) {
 
-    dos_guess = snapshot.val();
+    if (snapshot.exists()) {
+        dos_guess = snapshot.val();
+    }
+
+    // If any errors are experienced, log them to console.
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+database.ref("data_ties").on("value", function (snapshot) {
+
+    if (snapshot.exists()) {
+        ties = snapshot.val();
+        $("#tieses").text(ties);
+    }
+
+    // If any errors are experienced, log them to console.
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+database.ref("data_p2w").on("value", function (snapshot) {
+
+    if (snapshot.exists()) {
+        p2_wins = snapshot.val();
+        $("#p2w").text(p2_wins);
+    }
+
+    // If any errors are experienced, log them to console.
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+database.ref("data_p1w").on("value", function (snapshot) {
+
+    if (snapshot.exists()) {
+        p1_wins = snapshot.val();
+        $("#p1w").text(p1_wins);
+    }
 
     // If any errors are experienced, log them to console.
 }, function (errorObject) {
