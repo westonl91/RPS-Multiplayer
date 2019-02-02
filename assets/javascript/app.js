@@ -73,6 +73,7 @@ $(document).ready(function () {
                 database.ref().update({
                     data_unoMessage: uno_message
                 });
+                $("#player_message").val("");
             });
 
             $(".uno").on("click", function () {
@@ -94,6 +95,7 @@ $(document).ready(function () {
                 database.ref().update({
                     data_dosMessage: dos_message
                 });
+                $("#player_message").val("");
             });
 
             $(".dos").on("click", function () {
@@ -251,7 +253,7 @@ database.ref("data_unoMessage").on("value", function (snapshot) {
 
     if (snapshot.exists()) {
         uno_message = snapshot.val();
-        $("#message_box").append(player1 + ": " + uno_message + "<br>");
+        $("#message_box").append("<p style='color:blue;'>" + player1 + ": " + uno_message + "</p>");
     }
 
     // If any errors are experienced, log them to console.
@@ -263,7 +265,7 @@ database.ref("data_dosMessage").on("value", function (snapshot) {
 
     if (snapshot.exists()) {
         dos_message = snapshot.val();
-        $("#message_box").append(player2 + ": " + dos_message + "<br>");
+        $("#message_box").append("<p style='color:red;'>" + player2 + ": " + dos_message + "</p>");
     }
 
     // If any errors are experienced, log them to console.
