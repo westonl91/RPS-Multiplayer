@@ -80,11 +80,8 @@ $(document).ready(function () {
                     data_p1guess: uno_guess
                 });
                 console.log("you clicked " + $(this).attr("alt"));
-                player_uno = false;
+                $(".uno").attr("disabled", true);
                 WhoWillWin();
-                // if (player_dos === false) {
-                //     player_uno = true;
-                // }
             });
         } else if (player_dos === true) {
 
@@ -103,11 +100,8 @@ $(document).ready(function () {
                     data_p2guess: dos_guess
                 });
                 console.log("you clicked " + $(this).attr("alt"));
-                player_dos = false;
+                $(".dos").attr("disabled", true);
                 WhoWillWin();
-                //     if (player_uno === false) {
-                //         player_dos = true;
-                //     }
             });
         }
     });
@@ -206,6 +200,8 @@ database.ref("data_ties").on("value", function (snapshot) {
     if (snapshot.exists()) {
         ties = snapshot.val();
         $("#tieses").text(ties);
+        alert("it's a tie!");
+        $("button").removeAttr("disabled");
     }
 
     // If any errors are experienced, log them to console.
@@ -219,6 +215,7 @@ database.ref("data_p2w").on("value", function (snapshot) {
         p2_wins = snapshot.val();
         $("#p2w").text(p2_wins);
         alert(player2 + " wins!");
+        $("button").removeAttr("disabled");
     }
 
     // If any errors are experienced, log them to console.
@@ -232,6 +229,7 @@ database.ref("data_p1w").on("value", function (snapshot) {
         p1_wins = snapshot.val();
         $("#p1w").text(p1_wins);
         alert(player1 + " wins!");
+        $("button").removeAttr("disabled");
     }
 
     // If any errors are experienced, log them to console.
