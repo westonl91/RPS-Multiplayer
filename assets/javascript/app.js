@@ -13,16 +13,9 @@ firebase.initializeApp(config);
 
 // Create a variable to reference the database
 var database = firebase.database();
-//var game_key = "";
-
-
 
 //possible twist to add: game is best out of three, but a player can only choose each option once.
 //if I get really bored. I could use the giphyAPI to play a 'rock beating scissors' and so on gif after every round
-
-
-
-
 
 //initialize variables needed
 var player1 = "";
@@ -34,6 +27,8 @@ var dos_guess = "";
 var p1_wins = 0;
 var p2_wins = 0;
 var ties = 0;
+var uno_message = "";
+var dos_message = "";
 
 
 $(document).ready(function () {
@@ -69,6 +64,15 @@ $(document).ready(function () {
 
         if (player_uno === true) {
 
+            $("#send_message").on("click", function(event) {
+                event.preventDefault();
+                uno_message = $("#player_message").val();
+                console.log(uno_message);
+                database.ref().update({
+                    data_unoMessage: uno_message
+                });
+            });
+
             $(".uno").on("click", function () {
 
                 uno_guess = $(this).attr("alt");
@@ -83,6 +87,15 @@ $(document).ready(function () {
                 // }
             });
         } else if (player_dos === true) {
+
+            $("#send_message").on("click", function(event) {
+                event.preventDefault();
+                dos_message = $("#player_message").val();
+                console.log(dos_message);
+                database.ref().update({
+                    data_dosMessage: dos_message
+                });
+            });
 
             $(".dos").on("click", function () {
                 dos_guess = $(this).attr("alt");
@@ -124,13 +137,15 @@ $(document).ready(function () {
             } else {
                 p1_wins++;
                 database.ref().update({
-                    data_p2w: p2_wins
+                    data_p1w: p1_wins
                 });
             }
         } else {
             alert("waiting for other player to choose...");
         }
     }
+
+
 
 
 
@@ -203,6 +218,7 @@ database.ref("data_p2w").on("value", function (snapshot) {
     if (snapshot.exists()) {
         p2_wins = snapshot.val();
         $("#p2w").text(p2_wins);
+        alert(player2 + " wins!");
     }
 
     // If any errors are experienced, log them to console.
@@ -215,6 +231,31 @@ database.ref("data_p1w").on("value", function (snapshot) {
     if (snapshot.exists()) {
         p1_wins = snapshot.val();
         $("#p1w").text(p1_wins);
+        alert(player1 + " wins!");
+    }
+
+    // If any errors are experienced, log them to console.
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+database.ref("data_unoMessage").on("value", function (snapshot) {
+
+    if (snapshot.exists()) {
+        uno_message = snapshot.val();
+        $("#message_box").append(player1 + ": " + uno_message + "<br>");
+    }
+
+    // If any errors are experienced, log them to console.
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+database.ref("data_dosMessage").on("value", function (snapshot) {
+
+    if (snapshot.exists()) {
+        dos_message = snapshot.val();
+        $("#message_box").append(player2 + ": " + dos_message + "<br>");
     }
 
     // If any errors are experienced, log them to console.

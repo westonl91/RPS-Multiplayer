@@ -10,7 +10,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
 
-<script type="text/javascript" src="./assets/javascript/app.js"></script>
+    <script type="text/javascript" src="./assets/javascript/app.js"></script>
 
 
 
@@ -31,8 +31,8 @@
             <div class="col-md-10">
                 <p>Enter your name to join the game.</p>
                 <form>
-                        <input type="text" name="player" id="player_name">
-                        <input type="submit" value="Start" id="submit_name">
+                    <input type="text" name="player" id="player_name">
+                    <input type="submit" value="Start" id="submit_name" class="btn">
                 </form> <br>
             </div>
         </div>
@@ -60,7 +60,11 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <span>chat box goes here</span>
+                <div id="message_box"></div>
+                <form>
+                    <textarea id="player_message" placeholder="Type message.." name="msg" required></textarea><br>
+                    <input type="submit" id="send_message" class="btn" value="Send">
+                </form>
             </div>
         </div>
     </div>
