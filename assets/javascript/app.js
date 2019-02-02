@@ -49,6 +49,7 @@ $(document).ready(function () {
             });
             player_uno = true;
             console.log("you are player uno");
+            $("#name_form_div").hide("slow");
         } else if (player2 === "") {
             player2 = $("#player_name").val();
             database.ref().update({
@@ -56,6 +57,7 @@ $(document).ready(function () {
             });
             player_dos = true;
             console.log("you are player dos");
+            $("#name_form_div").hide("slow");
         } else {
             alert("Sorry! This game already has two players");
             console.log(player1);
@@ -157,7 +159,6 @@ function reset_game () {
 database.ref("data_player1").on("value", function (snapshot) {
 
     if (snapshot.exists()) {
-        //game_key = snapshot.key;
         console.log(snapshot.val());
         player1 = snapshot.val();
         $("#player1_name").text(player1);

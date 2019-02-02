@@ -1,5 +1,6 @@
 body {
-    text-align: center
+    text-align: center;
+    background-color: lightgray;
 }
 
 textarea {
@@ -12,4 +13,12 @@ textarea {
     border: 2px solid;
     border-color: black;
     overflow: scroll;
+}
+div {
+    background-color: lightyellow;
+}
+
+.col-md-4 {
+    border: 2px solid;
+    border-color: lightgray;
 }
