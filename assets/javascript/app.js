@@ -33,6 +33,8 @@ var dos_message = "";
 
 $(document).ready(function () {
 
+    $("#leave").hide();
+
     //first will be the handler for when the user presses start
     //next handler will be for when they click on an image
 
@@ -50,6 +52,14 @@ $(document).ready(function () {
             player_uno = true;
             console.log("you are player uno");
             $("#name_form_div").hide("slow");
+            $("#leave").show("slow");
+            $("#exit_game").on("click", function() {
+                player1 = "";
+                $("#leave").hide("slow");
+                $("#name_form_div").show("slow");
+                database.ref("data_player1").remove();
+                database.ref("data_p1w").remove();
+            });
         } else if (player2 === "") {
             player2 = $("#player_name").val();
             database.ref().update({
@@ -58,6 +68,14 @@ $(document).ready(function () {
             player_dos = true;
             console.log("you are player dos");
             $("#name_form_div").hide("slow");
+            $("#leave").show("slow");
+            $("#exit_game").on("click", function() {
+                player2 = "";
+                $("#leave").hide("slow");
+                $("#name_form_div").show("slow");
+                database.ref("data_player2").remove();
+                database.ref("data_p2w").remove();
+            });
         } else {
             alert("Sorry! This game already has two players");
             console.log(player1);
@@ -110,44 +128,40 @@ $(document).ready(function () {
         }
     });
 
-    function WhoWillWin() {
-        if (uno_guess !== "" && dos_guess !== "") {
-            if (uno_guess === dos_guess) {
-                ties++;
-                database.ref().update({
-                    data_ties: ties
-                });
-            } else if (uno_guess === "rock" && dos_guess === "paper") {
-                p2_wins++;
-                database.ref().update({
-                    data_p2w: p2_wins
-                });
-            } else if (uno_guess === "paper" && dos_guess === "scissors") {
-                p2_wins++;
-                database.ref().update({
-                    data_p2w: p2_wins
-                });
-            } else if (uno_guess === "scissors" && dos_guess === "rock") {
-                p2_wins++;
-                database.ref().update({
-                    data_p2w: p2_wins
-                });
-            } else {
-                p1_wins++;
-                database.ref().update({
-                    data_p1w: p1_wins
-                });
-            }
-        } else {
-            alert("waiting for other player to choose...");
-        }
-    }
-
-
-
-
-
 });
+
+function WhoWillWin() {
+    if (uno_guess !== "" && dos_guess !== "") {
+        if (uno_guess === dos_guess) {
+            ties++;
+            database.ref().update({
+                data_ties: ties
+            });
+        } else if (uno_guess === "rock" && dos_guess === "paper") {
+            p2_wins++;
+            database.ref().update({
+                data_p2w: p2_wins
+            });
+        } else if (uno_guess === "paper" && dos_guess === "scissors") {
+            p2_wins++;
+            database.ref().update({
+                data_p2w: p2_wins
+            });
+        } else if (uno_guess === "scissors" && dos_guess === "rock") {
+            p2_wins++;
+            database.ref().update({
+                data_p2w: p2_wins
+            });
+        } else {
+            p1_wins++;
+            database.ref().update({
+                data_p1w: p1_wins
+            });
+        }
+    } else {
+        alert("waiting for other player to choose...");
+    }
+}
 
 function reset_game () {
     database.ref("data_p1guess").remove();
@@ -157,6 +171,10 @@ function reset_game () {
     $("button").removeAttr("disabled");
 }
 
+// function leave_game () {
+//     console.log(this.val());
+// }
+
 
 database.ref("data_player1").on("value", function (snapshot) {
 
@@ -164,6 +182,8 @@ database.ref("data_player1").on("value", function (snapshot) {
         console.log(snapshot.val());
         player1 = snapshot.val();
         $("#player1_name").text(player1);
+    } else {
+        $("#player1_name").text("player 1");
     }
 
     // If any errors are experienced, log them to console.
@@ -177,6 +197,8 @@ database.ref("data_player2").on("value", function (snapshot) {
         console.log(snapshot.key);
         player2 = snapshot.val();
         $("#player2_name").text(player2);
+    } else {
+        $("#player2_name").text("player 2");
     }
 
     // If any errors are experienced, log them to console.
